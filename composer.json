@@ -15,7 +15,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Iqbalatma\\AuditElasticsearch\\AuditElasticsearchProvider\\"
+                "Iqbalatma\\AuditElasticsearch\\AuditElasticsearchProvider"
             ]
         }
     }
