@@ -1,0 +1,22 @@
+{
+    "name": "iqbalatma/audit-elasticsearch",
+    "autoload": {
+        "psr-4": {
+            "Iqbalatma\\AuditElasticsearch\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "iqbalatma",
+            "email": "iqbalatma@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iqbalatma\\AuditElasticsearch\\AuditElasticsearchProvider\\"
+            ]
+        }
+    }
+}
