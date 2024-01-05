@@ -3,7 +3,10 @@
     "autoload": {
         "psr-4": {
             "Iqbalatma\\AuditElasticsearch\\": "src/"
-        }
+        },
+        "files": [
+            "src/helper.php"
+        ]
     },
     "authors": [
         {
