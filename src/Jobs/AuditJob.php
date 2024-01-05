@@ -41,9 +41,9 @@ class AuditJob implements ShouldQueue
             ], JSON_THROW_ON_ERROR),
         ]);
 
-        if (config("services.elasticsearch.enable")) {
+        if (config("auditelasticsearch.elasticsearch.enable")) {
             app("elasticsearch")->index([
-                "index" => config("services.elasticsearch.prefix") . "admission_log",
+                "index" => config("auditelasticsearch.elasticsearch.prefix") . "admission_log",
                 'body' => $audit,
                 'id' => $audit->id,
             ]);
