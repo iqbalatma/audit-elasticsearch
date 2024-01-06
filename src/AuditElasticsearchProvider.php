@@ -30,6 +30,8 @@ class AuditElasticsearchProvider extends ServiceProvider
 
             return null;
         });
+
+
     }
 
     /**

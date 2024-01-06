@@ -5,6 +5,7 @@ namespace Iqbalatma\AuditElasticsearch\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Iqbalatma\AuditElasticsearch\Models\Audit;
 
 class PruningAuditCommand extends Command
 {
@@ -32,19 +33,19 @@ class PruningAuditCommand extends Command
 
         $optionRetention = $this->option("r");
 
-        if($optionRetention !== null){
-            if(ctype_digit($optionRetention)){
+        if ($optionRetention !== null) {
+            if (ctype_digit($optionRetention)) {
                 $retention = $optionRetention;
-            }else{
+            } else {
                 $this->error("Retention option must be integer");
                 return;
             }
-        }else{
-            $retention=config("app.audit_log_retention");
+        } else {
+            $retention = config("app.audit_log_retention");
         }
 
         $targetDate = $now->subDays($retention);
-        $deletedRow = DB::table("audits")->whereDate("created_at", "<=", $targetDate)->delete();
+        $deletedRow = DB::table(audit_model()::getTableName())->whereDate("created_at", "<=", $targetDate)->delete();
         $this->info("Pruning data audit successfully. Total $deletedRow deleted");
     }
 }

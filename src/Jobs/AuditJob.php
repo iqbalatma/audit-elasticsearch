@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Iqbalatma\AuditElasticsearch\Audit;
+use JsonException;
 
 class AuditJob implements ShouldQueue
 {
@@ -22,10 +23,11 @@ class AuditJob implements ShouldQueue
 
     /**
      * Execute the job.
+     * @throws JsonException
      */
     public function handle(): void
     {
-        $audit = \App\Models\Audit::query()->create([
+        $audit = audit_model()::query()->create([
             "message" => $this->audit->message ?? "",
             "action" => $this->audit->action ?? "",
             "ip_address" => $this->audit->ipAddress ?? "",
@@ -43,7 +45,7 @@ class AuditJob implements ShouldQueue
 
         if (config("auditelasticsearch.elasticsearch.enable")) {
             app("elasticsearch")->index([
-                "index" => config("auditelasticsearch.elasticsearch.prefix") . "admission_log",
+                "index" => config("auditelasticsearch.elasticsearch.prefix") . config("auditelasticsearch.audit_log_es_sufix"),
                 'body' => $audit,
                 'id' => $audit->id,
             ]);

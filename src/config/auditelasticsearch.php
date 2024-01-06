@@ -1,5 +1,7 @@
 <?php
 
+use Iqbalatma\AuditElasticsearch\Models\Audit;
+
 return [
     'elasticsearch' => [
         'enable' => env('ELASTICSEARCH_ENABLE', false),
@@ -9,4 +11,6 @@ return [
         'prefix' => env('ELASTICSEARCH_PREFIX', ''),
     ],
     'audit_log_retention' => (int) env('AUDIT_LOG_RETENTION', 1),
+    "audit_model" => Audit::class,
+    "audit_log_es_sufix" => "audit_log"
 ];
