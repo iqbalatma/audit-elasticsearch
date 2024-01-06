@@ -52,12 +52,12 @@ class Audit
 
     /**
      * @param string $key
-     * @param array|string $after
+     * @param array|string|null $after
      * @return $this
      */
-    public function addAfter(string $key, array|string $after): self
+    public function addAfter(string $key, array|string|null $after): self
     {
-        $this->before->put($key, $after);
+        $this->after->put($key, $after);
         return $this;
     }
 
