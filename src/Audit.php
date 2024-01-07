@@ -120,6 +120,8 @@ class Audit
         $this->before = $this->before->merge($before);
         $this->after = $this->after->merge($after);
 
-        AuditJob::dispatch($this);
+        if (count($this->after) > 0 || count($this->before) > 0){
+            AuditJob::dispatch($this);
+        }
     }
 }
