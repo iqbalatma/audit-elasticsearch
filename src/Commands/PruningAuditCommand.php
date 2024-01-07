@@ -41,7 +41,7 @@ class PruningAuditCommand extends Command
                 return;
             }
         } else {
-            $retention = config("app.audit_log_retention");
+            $retention = config("auditelasticsearch.audit_log_retention");
         }
 
         $targetDate = $now->subDays($retention);
