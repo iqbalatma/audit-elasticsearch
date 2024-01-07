@@ -2,8 +2,11 @@
 
 namespace Iqbalatma\AuditElasticsearch;
 
+use Carbon\Carbon;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Iqbalatma\AuditElasticsearch\Jobs\AuditJob;
 
 class Audit
@@ -120,7 +123,7 @@ class Audit
         $this->before = $this->before->merge($before);
         $this->after = $this->after->merge($after);
 
-        if (count($this->after) > 0 || count($this->before) > 0){
+        if (count($this->after) > 0 || count($this->before) > 0) {
             AuditJob::dispatch($this);
         }
     }
