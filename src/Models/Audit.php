@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Audit extends Model
 {
-    use SoftDeletes, HasUuids;
+    use HasUuids;
 
     protected $table = "public.audits";
 
