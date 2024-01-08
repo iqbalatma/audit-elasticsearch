@@ -2,16 +2,13 @@
 
 namespace Iqbalatma\AuditElasticsearch\Jobs;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Iqbalatma\AuditElasticsearch\Audit;
 use JsonException;
-use Throwable;
 
 class AuditJob implements ShouldQueue
 {
@@ -30,7 +27,7 @@ class AuditJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $audit = audit_model()::query()->create([
+        audit_model()::query()->create([
             "message" => $this->audit->message ?? "",
             "action" => $this->audit->action ?? "",
             "ip_address" => $this->audit->ipAddress ?? "",
