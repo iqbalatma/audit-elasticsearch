@@ -2,6 +2,7 @@
 
 namespace Iqbalatma\AuditElasticsearch\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Iqbalatma\AuditElasticsearch\Models\Audit;
 
@@ -12,7 +13,7 @@ class ReindexingElasticsearchAudit extends Command
      *
      * @var string
      */
-    protected $signature = 'elasticsearch:reindex-audit';
+    protected $signature = 'audit:reindex';
 
     /**
      * The console command description.
@@ -27,9 +28,9 @@ class ReindexingElasticsearchAudit extends Command
     public function handle()
     {
         $this->info("Indexing all data audit into elasticsearch");
-        foreach (audit_model()::cursor() as $audit) {
+        foreach (audit_model()::where("is_elastic_sync", false)->cursor() as $audit) {
             es()->index([
-                "index" => config("auditelasticsearch.elasticsearch.prefix") . config("auditelasticsearch.audit_log_es_sufix"),
+                "index" => config("auditelasticsearch.elasticsearch.prefix") . "_" . config("auditelasticsearch.elasticsearch.app_name") . "_" . $audit->created_at->format("Ymd"),
                 'body' => $audit,
                 'id' => $audit->id
             ]);

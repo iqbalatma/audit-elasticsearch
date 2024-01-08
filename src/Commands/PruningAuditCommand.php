@@ -45,7 +45,7 @@ class PruningAuditCommand extends Command
         }
 
         $targetDate = $now->subDays($retention);
-        $deletedRow = DB::table(audit_model()::getTableName())->whereDate("created_at", "<=", $targetDate)->delete();
+        $deletedRow = DB::table(audit_model()::getTableName())->whereDate("created_at", "<=", $targetDate)->where("is_elastic_sync", true)->delete();
         $this->info("Pruning data audit successfully. Total $deletedRow deleted");
     }
 }
