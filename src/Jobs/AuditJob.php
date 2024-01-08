@@ -48,21 +48,20 @@ class AuditJob implements ShouldQueue
             ], JSON_THROW_ON_ERROR),
         ]);
 
-
-        if (config("auditelasticsearch.elasticsearch.enable")) {
-            try {
-                app("elasticsearch")->index([
-                    "index" => config("auditelasticsearch.elasticsearch.prefix") . "_" . config("auditelasticsearch.elasticsearch.app_name") . "_" . Carbon::now()->format("Ymd"),
-                    'body' => $audit,
-                    'id' => $audit->id,
-                ]);
-
-                $audit->is_elastic_sync = true;
-                $audit->save();
-            } catch (Throwable $e) {
-                Log::error($e->getMessage());
-            }
-
-        }
+//
+//        if (config("auditelasticsearch.elasticsearch.enable")) {
+//            try {
+//                app("elasticsearch")->index([
+//                    "index" => config("auditelasticsearch.elasticsearch.prefix") . "_" . config("auditelasticsearch.elasticsearch.app_name") . "_" . Carbon::now()->format("Ymd"),
+//                    'body' => $audit,
+//                    'id' => $audit->id,
+//                ]);
+//
+//                $audit->is_elastic_sync = true;
+//                $audit->save();
+//            } catch (Throwable $e) {
+//                Log::error($e->getMessage());
+//            }
+//        }
     }
 }
