@@ -20,12 +20,17 @@ class Audit
     public string|null $userAgent;
     public string $action;
     public string $message;
+    public array $tag;
+    public array $additional;
     public Collection $before;
     public Collection $after;
+    public const PACKAGE_VERSION = "0.0.8";
 
     public function __construct()
     {
         $this->message = "";
+        $this->tag = [];
+        $this->additional = ["version" => self::PACKAGE_VERSION];
         $this->before = collect();
         $this->after = collect();
         $this->setActor()
@@ -83,6 +88,26 @@ class Audit
     public function message(string $message): self
     {
         $this->message = $message;
+        return $this;
+    }
+
+    /**
+     * @param array $tag
+     * @return $this
+     */
+    public function tag(array $tag): self
+    {
+        $this->tag = $tag;
+        return $this;
+    }
+
+    /**
+     * @param array $additional
+     * @return $this
+     */
+    public function additional(array $additional):self
+    {
+        $this->additional = $additional;
         return $this;
     }
 

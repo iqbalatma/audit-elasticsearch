@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Iqbalatma\AuditElasticsearch\Audit;
 use JsonException;
 
@@ -37,6 +38,8 @@ class AuditJob implements ShouldQueue
             "actor_id" => $this->audit->actorId ?? "",
             "actor_name" => $this->audit->actorName ?? "",
             "actor_phone" => $this->audit->actorPhone ?? "",
+            "tags" => json_encode($this->audit->tag, JSON_THROW_ON_ERROR),
+            "additional_data" => json_encode($this->audit->additional, JSON_THROW_ON_ERROR),
             "is_elastic_sync" => false,
             "app_name" => config("auditelasticsearch.elasticsearch.app_name"),
             "trail" => json_encode([
@@ -44,6 +47,8 @@ class AuditJob implements ShouldQueue
                 "after" => $this->audit->after,
             ], JSON_THROW_ON_ERROR),
         ]);
+
+        Log::info("AUDIT JOB SUCCESS");
 
 //
 //        if (config("auditelasticsearch.elasticsearch.enable")) {
