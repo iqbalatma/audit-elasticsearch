@@ -15,6 +15,8 @@ class AuditJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public const PACKAGE_VERSION = "0.0.11";
+
     /**
      * Create a new job instance.
      */
@@ -39,7 +41,7 @@ class AuditJob implements ShouldQueue
             "actor_name" => $this->audit->actorName ?? "",
             "actor_phone" => $this->audit->actorPhone ?? "",
             "tags" => json_encode($this->audit->tag, JSON_THROW_ON_ERROR),
-            "additional_data" => json_encode($this->audit->additional, JSON_THROW_ON_ERROR),
+            "additional_data" => json_encode(array_merge(["version" => self::PACKAGE_VERSION], $this->audit->additional), JSON_THROW_ON_ERROR),
             "is_elastic_sync" => false,
             "app_name" => config("auditelasticsearch.elasticsearch.app_name"),
             "trail" => json_encode([

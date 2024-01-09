@@ -24,13 +24,12 @@ class Audit
     public array $additional;
     public Collection $before;
     public Collection $after;
-    public const PACKAGE_VERSION = "0.0.10";
 
     public function __construct()
     {
         $this->message = "";
         $this->tag = [];
-        $this->additional = ["version" => self::PACKAGE_VERSION];
+        $this->additional = [];
         $this->before = collect();
         $this->after = collect();
         $this->setActor()
