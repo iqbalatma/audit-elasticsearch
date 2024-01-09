@@ -24,7 +24,7 @@ class Audit
     public array $additional;
     public Collection $before;
     public Collection $after;
-    public const PACKAGE_VERSION = "0.0.8";
+    public const PACKAGE_VERSION = "0.0.10";
 
     public function __construct()
     {
