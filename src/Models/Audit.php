@@ -33,7 +33,11 @@ class Audit extends Model
 
     protected $table = "public.audits";
 
-//    protected $connection = "pemilu";
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->connection = config("auditelasticsearch.audit_model_connection");
+    }
 
     protected $fillable = [
         "actor_type", "actor_id", "actor_name", "actor_phone", "endpoint", "ip_address", "user_agent", "action", "message", "trail", "app_name", "is_elastic_sync", "tags", "additional_data"

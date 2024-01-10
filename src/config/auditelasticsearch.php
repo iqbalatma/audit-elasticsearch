@@ -13,4 +13,5 @@ return [
     ],
     'audit_log_retention' => (int) env('AUDIT_LOG_RETENTION', 1),
     "audit_model" => Audit::class,
+    "audit_model_connection" =>env('AUDIT_CONNECTION', 'pgsql'),
 ];
