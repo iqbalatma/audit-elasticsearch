@@ -15,7 +15,7 @@ class AuditJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public const PACKAGE_VERSION = "0.0.11";
+    public const PACKAGE_VERSION = "0.0.12";
 
     /**
      * Create a new job instance.
@@ -49,23 +49,5 @@ class AuditJob implements ShouldQueue
                 "after" => $this->audit->after,
             ], JSON_THROW_ON_ERROR),
         ]);
-
-        Log::info("AUDIT JOB SUCCESS");
-
-//
-//        if (config("auditelasticsearch.elasticsearch.enable")) {
-//            try {
-//                app("elasticsearch")->index([
-//                    "index" => config("auditelasticsearch.elasticsearch.prefix") . "_" . config("auditelasticsearch.elasticsearch.app_name") . "_" . Carbon::now()->format("Ymd"),
-//                    'body' => $audit,
-//                    'id' => $audit->id,
-//                ]);
-//
-//                $audit->is_elastic_sync = true;
-//                $audit->save();
-//            } catch (Throwable $e) {
-//                Log::error($e->getMessage());
-//            }
-//        }
     }
 }
