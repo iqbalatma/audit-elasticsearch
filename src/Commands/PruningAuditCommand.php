@@ -48,7 +48,7 @@ class PruningAuditCommand extends Command
         $deletedRow = DB::connection(config("auditelasticsearch.audit_model_connection"))
             ->table(audit_model()::getTableName())
             ->whereDate("created_at", "<=", $targetDate)
-            ->where("is_elastic_sync", true)
+            ->whereNotNull("synced_at")
             ->delete();
         $this->info("Pruning data audit successfully. Total $deletedRow deleted");
     }
