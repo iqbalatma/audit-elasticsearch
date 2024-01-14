@@ -9,7 +9,6 @@ use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Iqbalatma\AuditElasticsearch\Models\Audit;
 
 class ReindexingElasticsearchAudit extends Command
 {
@@ -41,7 +40,7 @@ class ReindexingElasticsearchAudit extends Command
                 $this->indexing($audit);
             }
         } else {
-            foreach (audit_model()::where("is_elastic_sync", false)->cursor() as $audit) {
+            foreach (audit_model()::whereNull("synced_at")->cursor() as $audit) {
                 $this->indexing($audit);
             }
         }
@@ -65,7 +64,7 @@ class ReindexingElasticsearchAudit extends Command
                 'body' => $audit,
                 'id' => $audit->id
             ]);
-            $audit->is_elastic_sync = true;
+            $audit->synced_at = Carbon::now();
             $audit->save();
             $this->info("Indexing audit to $audit->app_name data with id: $audit->id successfully");
         } catch (Exception $e) {

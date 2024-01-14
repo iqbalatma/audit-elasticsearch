@@ -42,7 +42,7 @@ class AuditJob implements ShouldQueue
             "actor_phone" => $this->audit->actorPhone ?? "",
             "tags" => json_encode($this->audit->tag, JSON_THROW_ON_ERROR),
             "additional_data" => json_encode(array_merge(["version" => self::PACKAGE_VERSION], $this->audit->additional), JSON_THROW_ON_ERROR),
-            "is_elastic_sync" => false,
+            "synced_at" => null,
             "app_name" => config("auditelasticsearch.elasticsearch.app_name"),
             "trail" => json_encode([
                 "before" => $this->audit->before,
