@@ -15,7 +15,7 @@ class AuditJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public const PACKAGE_VERSION = "0.0.13";
+    public const PACKAGE_VERSION = "0.0.14";
 
     /**
      * Create a new job instance.

@@ -27,9 +27,13 @@ class Audit
 
     public function __construct()
     {
+        if (method_exists(Auth::user(), "getRoleNames") && config("auditelasticsearch.is_role_from_spatie")){
+            $this->additional = ["actor_role" => Auth::user()->getRoleNames()->toArray()];
+        }else{
+            $this->additional = [];
+        }
         $this->message = "";
         $this->tag = [];
-        $this->additional = [];
         $this->before = collect();
         $this->after = collect();
         $this->setActor()
@@ -90,13 +94,14 @@ class Audit
         return $this;
     }
 
+
     /**
      * @param array $tag
      * @return $this
      */
     public function tag(array $tag): self
     {
-        $this->tag = $tag;
+        $this->tag = array_merge($this->tag, $tag);
         return $this;
     }
 
@@ -104,9 +109,9 @@ class Audit
      * @param array $additional
      * @return $this
      */
-    public function additional(array $additional):self
+    public function additional(array $additional): self
     {
-        $this->additional = $additional;
+        $this->additional = array_merge($this->additional, $additional);
         return $this;
     }
 
