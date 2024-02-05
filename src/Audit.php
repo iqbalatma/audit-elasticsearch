@@ -19,6 +19,7 @@ class Audit
     public string|null $ipAddress;
     public string|null $userAgent;
     public string $action;
+    public string $method;
     public string $message;
     public array $tag;
     public array $additional;
@@ -27,9 +28,9 @@ class Audit
 
     public function __construct()
     {
-        if (method_exists(Auth::user(), "getRoleNames") && config("auditelasticsearch.is_role_from_spatie")){
+        if (method_exists(Auth::user(), "getRoleNames") && config("auditelasticsearch.is_role_from_spatie")) {
             $this->additional = ["actor_role" => Auth::user()->getRoleNames()->toArray()];
-        }else{
+        } else {
             $this->additional = [];
         }
         $this->message = "";
@@ -137,6 +138,7 @@ class Audit
      */
     protected function setNetwork(): void
     {
+        $this->method = request()?->getMethod();
         $this->ipAddress = request()?->getClientIp();
         $this->userAgent = request()?->header("user-agent");
         $this->endpoint = parse_url(request()?->url())["path"] ?? null;

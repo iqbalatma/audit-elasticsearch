@@ -15,7 +15,7 @@ class AuditJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public const PACKAGE_VERSION = "0.0.14";
+    public const PACKAGE_VERSION = "0.0.15";
 
     /**
      * Create a new job instance.
@@ -31,6 +31,7 @@ class AuditJob implements ShouldQueue
     public function handle(): void
     {
         audit_model()::query()->create([
+            "method" => $this->audit->method ?? "",
             "message" => $this->audit->message ?? "",
             "action" => $this->audit->action ?? "",
             "ip_address" => $this->audit->ipAddress ?? "",
