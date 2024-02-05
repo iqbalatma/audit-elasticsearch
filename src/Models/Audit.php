@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string tags
  * @property string additional_data
  * @property string method
+ * @property string object_type
+ * @property string object_id
  * @property Carbon synced_at
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -41,7 +43,7 @@ class Audit extends Model
     }
 
     protected $fillable = [
-        "actor_type", "actor_id", "actor_name", "actor_phone", "endpoint", "ip_address", "user_agent", "action", "message", "trail", "app_name", "synced_at", "tags", "additional_data", "method"
+        "actor_type", "actor_id", "actor_name", "actor_phone", "endpoint", "ip_address", "user_agent", "action", "message", "trail", "app_name", "synced_at", "tags", "additional_data", "method", "object_type", "object_id"
     ];
 
     /**

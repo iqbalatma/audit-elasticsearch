@@ -32,6 +32,8 @@ class AuditJob implements ShouldQueue
     {
         audit_model()::query()->create([
             "method" => $this->audit->method ?? "",
+            "object_type" => $this->audit->objectType ?? "",
+            "object_id" => $this->audit->objectId ?? "",
             "message" => $this->audit->message ?? "",
             "action" => $this->audit->action ?? "",
             "ip_address" => $this->audit->ipAddress ?? "",

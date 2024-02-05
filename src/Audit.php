@@ -2,11 +2,9 @@
 
 namespace Iqbalatma\AuditElasticsearch;
 
-use Carbon\Carbon;
-use Elastic\Elasticsearch\ClientBuilder;
+use App\Models\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Iqbalatma\AuditElasticsearch\Jobs\AuditJob;
 
 class Audit
@@ -25,6 +23,8 @@ class Audit
     public array $additional;
     public Collection $before;
     public Collection $after;
+    public string|null $objectType;
+    public string|null $objectId;
 
     public function __construct()
     {
@@ -37,6 +37,8 @@ class Audit
         $this->tag = [];
         $this->before = collect();
         $this->after = collect();
+        $this->objectType = null;
+        $this->objectId = null;
         $this->setActor()
             ->setNetwork();
     }
@@ -47,6 +49,18 @@ class Audit
     public static function init(): self
     {
         return new static();
+    }
+
+    /**
+     * @param Model $model
+     * @return $this
+     */
+    public function setObject(Model $model): self
+    {
+        $this->objectType = $model->getMorphClass();
+        $this->objectId = $model->getKey();
+
+        return $this;
     }
 
     /**
@@ -131,6 +145,8 @@ class Audit
 
         return $this;
     }
+
+
 
 
     /**
