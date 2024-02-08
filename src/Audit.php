@@ -57,7 +57,7 @@ class Audit
      */
     public function setObject(Model $model): self
     {
-        $this->objectType = $model->getMorphClass();
+        $this->objectType = $model->getTable();
         $this->objectId = $model->getKey();
 
         return $this;
