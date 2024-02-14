@@ -30,12 +30,10 @@ class ReindexingElasticsearchAudit extends Command
         $isForce = $this->option("force");
         $this->info("Indexing all data audit into elasticsearch");
 
-        if($isForce){
-            audit_model()::query()->update(["synced_at" => null]);
+        $query = audit_model()::query()->when(!$isForce, fn($q) => $q->whereNull('synced_at'));
+        foreach ($query->cursor() as $audit) {
+            ReindexingJob::dispatch($audit);
         }
-        foreach (audit_model()::whereNull("synced_at")->cursor() as $audit) {
-            ReindexingJob::dispatch($isForce, $audit);
-        }
-        $this->info("Indexing successfully");
+        $this->info("Indexing complete");
     }
 }

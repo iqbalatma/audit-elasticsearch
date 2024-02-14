@@ -23,7 +23,7 @@ class ReindexingJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public bool $isForce, public Audit $audit)
+    public function __construct(public Audit $audit)
     {
     }
 
@@ -36,22 +36,18 @@ class ReindexingJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            DB::beginTransaction();
             $this->audit->refresh();
             if ($this->audit->synced_at) {
                 return;
             }
-            $this->audit->synced_at = Carbon::now();
-            $this->audit->save();
-
             es()->index([
                 "index" => config("auditelasticsearch.elasticsearch.prefix") . "_" . $this->audit->app_name . "_" . $this->audit->created_at->format("Ymd"),
                 'body' => $this->audit,
                 'id' => $this->audit->id
             ]);
-            DB::commit();
+            $this->audit->synced_at = Carbon::now();
+            $this->audit->save();
         } catch (Exception $e) {
-            DB::rollBack();
             Log::info("Indexing audit to " . $this->audit->app_name . " data with id: " . $this->audit->id . " failed. Error : " . $e->getMessage());
             throw $e;
         }
