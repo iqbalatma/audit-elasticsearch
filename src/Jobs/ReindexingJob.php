@@ -23,7 +23,7 @@ class ReindexingJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Audit $audit)
+    public function __construct(public bool $isForce, public Audit $audit)
     {
     }
 
@@ -38,6 +38,9 @@ class ReindexingJob implements ShouldQueue
         try {
             DB::beginTransaction();
             $this->audit->refresh();
+            if ($this->audit->synced_at) {
+                return;
+            }
             $this->audit->synced_at = Carbon::now();
             $this->audit->save();
 
